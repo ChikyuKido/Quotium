@@ -1,0 +1,3 @@
+[submodule "external/wat"]
+	path = external/wat
+	url = https://github.com/ChikyuKido/wat

@@ -21,6 +21,6 @@ func main() {
 	}
 	r := gin.Default()
 	wat.InitWat(r, db.DB(), firstStart)
-	wat.InitWatWebsite(r)
+	wat.InitWatWebsite(r, "./external/wat/website")
 	server.StartServer(r, 8080)
 }
