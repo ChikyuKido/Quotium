@@ -4,8 +4,11 @@ import (
 	"Quotium/external/untis"
 	"Quotium/internal/server/db/entity"
 	"Quotium/internal/server/db/repo"
+	"Quotium/util"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
+	"time"
 )
 
 func UpdateTeachersInDB() bool {
@@ -49,7 +52,26 @@ func UpdateTeachersInDB() bool {
 			})
 		}
 	}
-
+	logrus.Info("Start downloading teacher images from untis.")
+	logrus.Infof("This operation will likely take %d seconds", len(teachersToAdd))
+	err = os.MkdirAll("data/teacher", 664)
+	if err != nil {
+		logrus.Errorf("could not create directory for downloading teachers. %v", err)
+	} else {
+		for _, teacher := range teachersToAdd {
+			downloadPath := fmt.Sprintf("data/teacher/%d.png", teacher.ID)
+			if util.FileExists(downloadPath) {
+				continue
+			}
+			if err = client.DownloadTeacherImage(downloadPath, teacher.ID); err != nil {
+				logrus.Errorf("could not download teacher image. %v", err)
+			} else {
+				logrus.Debugf("Downloaded image for teacher %d", teacher.ID)
+			}
+			time.Sleep(1 * time.Second)
+		}
+	}
+	logrus.Info("finished downloading teacher images from untis")
 	if len(teachersToAdd) != 0 {
 		logrus.Infof("Found %d new teachers and add them to db", len(teachersToAdd))
 		repo.AddTeachers(teachersToAdd)

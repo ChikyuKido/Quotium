@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"os"
 )
 
 type UntisClient struct {
@@ -68,7 +69,7 @@ func (c *UntisClient) Login() error {
 
 }
 func (c *UntisClient) Logout() error {
-	resp, err := c.client.Get("https://neilo.webuntis.com/WebUntis/saml/logout")
+	resp, err := c.client.Get(c.BaseUrl + "/WebUntis/saml/logout")
 	if err != nil {
 		return err
 	}
@@ -79,7 +80,7 @@ func (c *UntisClient) Logout() error {
 }
 
 func (c *UntisClient) GetTeachers() ([]Teacher, error) {
-	req, err := http.NewRequest("GET", "https://neilo.webuntis.com/WebUntis/api/public/timetable/weekly/pageconfig?type=2&date=2024-12-22&isMyTimetableSelected=false", nil)
+	req, err := http.NewRequest("GET", c.BaseUrl+"/WebUntis/api/public/timetable/weekly/pageconfig?type=2&date=2024-12-22&isMyTimetableSelected=false", nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %v", err)
 	}
@@ -105,4 +106,22 @@ func (c *UntisClient) GetTeachers() ([]Teacher, error) {
 	}
 
 	return teacherJson.Data.Teachers, nil
+}
+
+func (c *UntisClient) DownloadTeacherImage(path string, teacherID uint) error {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/WebUntis/image.do?cat=2&id=%d", c.BaseUrl, teacherID), nil)
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return fmt.Errorf("error making request: %v", err)
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("error reading response body: %v", err)
+	}
+	err = os.WriteFile(path, body, 644)
+	if err != nil {
+		return fmt.Errorf("error writing teacher image: %v", err)
+	}
+	return nil
 }

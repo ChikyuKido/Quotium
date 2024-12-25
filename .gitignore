@@ -1,3 +1,5 @@
 .env
 .idea
 database.db
+data
+.fuse_hidden*
