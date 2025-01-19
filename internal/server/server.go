@@ -4,6 +4,7 @@ import (
 	"Quotium/internal/server/route/quote"
 	"Quotium/internal/server/route/sites"
 	"Quotium/internal/server/route/teacher"
+	"github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"strconv"
@@ -22,9 +23,11 @@ func initRoutes(r *gin.Engine) {
 	teacherRoute := r.Group("/api/v1/teacher")
 	teacherRoute.GET("/list", teacher.ListTeacher())
 	teacherRoute.Static("/image", "data/teacher/")
-	r.Static("/imgs", "./website/imgs")
 	sitesGroup := r.Group("/")
+	static.ServeFolder("/imgs/", "./website/imgs", nil, "imgs", sitesGroup)
+	static.ServeFolder("/js/", "./website/js", nil, "js", sitesGroup)
 	sites.Quotes(sitesGroup)
 	sites.Teachers(sitesGroup)
+	r.GET("/", static.ServeFile("./website/html/index.html", nil, "quotes"))
 
 }

@@ -15,7 +15,7 @@ import (
 
 func main() {
 	godotenv.Load(".env")
-	if os.Getenv("debug") != "" && os.Getenv("debug") == "true" {
+	if os.Getenv("DEBUG") != "" && os.Getenv("DEBUG") == "true" {
 		logrus.SetLevel(logrus.DebugLevel)
 		gin.SetMode(gin.DebugMode)
 	} else {

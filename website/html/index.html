@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotium</title>
+    <link href="/css/bulma.css" rel="stylesheet">
+    <style>
+        .box.has-background-info {
+            background-color: #1d3557;
+            color: white;
+        }
+
+        .box.has-background-success {
+            background-color: #457b9d;
+            color: white;
+        }
+
+        .box.has-background-warning {
+            background-color: #f1faee;
+            color: #333;
+        }
+
+        .hero.is-primary {
+            background-color: #1d3557;
+        }
+
+        .hero-body h1, .hero-body h2 {
+            color: white;
+        }
+        .box h3 {
+            color: #14161a;
+        }
+        .box p {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+{{block "navbar" .}}{{end}}
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <img src="/imgs/logo.webp" alt="Quotium Logo" style="max-width: 200px;">
+            <h1 class="title is-2 mt-5">Welcome to Quotium</h1>
+            <h2 class="subtitle is-4">A collection of quotes from teachers</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-one-third">
+                <div class="box has-background-info">
+                    <h3 class="title is-4">New Quotes (Last 7 Days)</h3>
+                    <p class="subtitle is-5">20</p>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="box has-background-success">
+                    <h3 class="title is-4">Total Quotes</h3>
+                    <p class="subtitle is-5">2000</p>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="box has-background-warning">
+                    <h3 class="title is-4">Total Teachers</h3>
+                    <p class="subtitle is-5">150</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title is-3">Explore the World of Quotes</h2>
+        <a href="/quotes" class="button is-primary is-large">Browse Quotes</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container has-text-centered">
+        <strong>Quotium</strong> made with lots of love
+    </div>
+</section>
+
+</body>
+</html>
