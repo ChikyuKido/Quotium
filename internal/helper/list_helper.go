@@ -50,8 +50,8 @@ func QuoteList(c *gin.Context) []entity.Quote {
 }
 
 func TeacherList(c *gin.Context) []entity.Teacher {
-	sortType := "name"
-	order := "asc"
+	sortType := "quotes"
+	order := "desc"
 	limit := 25
 	if sortParam := c.Query("sort"); sortParam != "" {
 		sortType = sortParam

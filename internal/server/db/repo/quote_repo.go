@@ -4,14 +4,13 @@ import (
 	"Quotium/internal/server/db"
 	"Quotium/internal/server/db/entity"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
-func CreateQuote(content string, teacherID uint, userID uint) bool {
+func CreateQuote(content string, teacherID uint, userID uint, creationDate int64) bool {
 	var quote = entity.Quote{
 		Content:      content,
 		TeacherID:    teacherID,
-		CreationDate: time.Now().Unix(),
+		CreationDate: creationDate,
 	}
 	if userID != 0 {
 		quote.CreatorID = userID

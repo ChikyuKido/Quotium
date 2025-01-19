@@ -36,9 +36,9 @@
             <div class="control">
                 <div class="select">
                     <select id="sortDropdown">
+                        <option value="quotes">Quote Count</option>
                         <option value="name">Name</option>
                         <option value="shortname">Shortname</option>
-                        <option value="quotes">Quote Count</option>
                     </select>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="control">
                 <div class="select">
                     <select id="limitDropdown">
-                        <option value="20">20</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                         <option value="all">All</option>
@@ -67,7 +67,26 @@
     </div>
 </div>
 <script>
-    let sortOrder = 'Ascending';
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            search: params.get('search') || '',
+            sort: params.get('sort') || 'quotes',
+            limit: params.get('limit') || '25',
+            order: params.get('order') || 'desc'
+        };
+    }
+    function populateFilters() {
+        const params = getUrlParams();
+        document.getElementById('searchInput').value = params.search;
+        document.getElementById('sortDropdown').value = params.sort;
+        document.getElementById('limitDropdown').value = params.limit;
+        sortOrder = params.order === 'asc' ? 'Ascending' : 'Descending';
+        document.getElementById('sortOrder').textContent = sortOrder;
+    }
+
+    window.onload = populateFilters;
+    let sortOrder = 'Descending';
 
     function toggleSortOrder() {
         sortOrder = sortOrder === 'Ascending' ? 'Descending' : 'Ascending';

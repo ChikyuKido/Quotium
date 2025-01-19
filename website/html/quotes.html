@@ -38,7 +38,7 @@
             <div class="control">
                 <div class="select">
                     <select id="limitDropdown">
-                        <option value="20">20</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                         <option value="all">All</option>
@@ -69,6 +69,27 @@
     </div>
 </div>
 <script>
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            search: params.get('search') || '',
+            sort: params.get('sort') || 'cd',
+            limit: params.get('limit') || '25',
+            teacher: params.get('teacher') || '0',
+            order: params.get('order') || 'asc'
+        };
+    }
+    function populateFilters() {
+        const params = getUrlParams();
+        document.getElementById('searchInput').value = params.search;
+        document.getElementById('sortDropdown').value = params.sort;
+        document.getElementById('limitDropdown').value = params.limit;
+        document.getElementById('teacherDropdown').value = params.teacher;
+        sortOrder = params.order === 'asc' ? 'Ascending' : 'Descending';
+        document.getElementById('sortOrder').textContent = sortOrder;
+    }
+
+    window.onload = populateFilters;
     let sortOrder = 'Ascending';
 
     function toggleSortOrder() {

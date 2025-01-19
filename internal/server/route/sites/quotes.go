@@ -28,8 +28,12 @@ func Quotes(r *gin.RouterGroup) {
 		}{}
 		dbQuotes := helper.QuoteList(c)
 		for _, dbQuote := range dbQuotes {
+			creatorName := "anon"
+			if dbQuote.CreatorID != 0 {
+				creatorName = dbQuote.Creator.Username
+			}
 			quote := quoteData{
-				Creator: dbQuote.Creator.Username,
+				Creator: creatorName,
 				Content: dbQuote.Content,
 				Teacher: dbQuote.Teacher.Name,
 				Date:    time.Unix(dbQuote.CreationDate, 0).Format("02.01.2006"),

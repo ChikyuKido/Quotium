@@ -28,6 +28,9 @@ func main() {
 	}
 	r := gin.Default()
 	static.LoadTemplates("./website/templates")
+	wat.Roles["user"] = append(wat.Roles["user"], "createQuote")
+	wat.Roles["user"] = append(wat.Roles["user"], "listQuotes")
+	wat.Roles["user"] = append(wat.Roles["user"], "listTeachers")
 	wat.InitWat(r, db.DB(), firstStart)
 	wat.InitWatWebsite(r, "./external/wat/website")
 	server.StartServer(r, 8080)

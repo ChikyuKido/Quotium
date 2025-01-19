@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quote</title>
+    <link href="/css/bulma.css" rel="stylesheet">
+</head>
+<body>
+{{block "navbar" .}}{{end}}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title has-text-white">Create a Quote</h1>
+        <form id="quoteForm">
+            <div class="field">
+                <label class="label has-text-white">Quote Content</label>
+                <div class="control">
+                    <textarea class="textarea" name="content" placeholder="Enter the quote here" required></textarea>
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <input class="input" type="date" name="date" required>
+                </div>
+
+                <div class="control">
+                    <div class="select">
+                        <select name="person" required>
+                            <option value="" disabled selected>Select a person</option>
+                            {{range .Teachers}}
+                            <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox has-text-white">
+                            <input type="checkbox" name="anonymous">
+                            Post as anonymous
+                        </label>
+                    </div>
+                </div>
+                <div class="control">
+                    <button type="button" id="submitButton" class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <button type="reset" class="button is-light">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const form = document.getElementById('quoteForm');
+        const formData = new FormData(form);
+
+        const requestData = {
+            content: formData.get('content'),
+            teacher_id: parseInt(formData.get('person'), 10),
+            creation_date: new Date(formData.get('date')).getTime()/1000,
+            anon: formData.has('anonymous')
+        };
+
+        fetch('/api/v1/quote/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location = "/quotes"
+            })
+            .catch(error => {
+                console.log('There was a problem creating the quote: ' + error.message);
+            });
+    });
+</script>
+</body>
+</html>

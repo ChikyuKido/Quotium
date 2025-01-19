@@ -5,14 +5,16 @@ import (
 	"github.com/ChikyuKido/wat/wat/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 func CreateQuote() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var requestData = struct {
-			Content   string `json:"content"`
-			TeacherID uint   `json:"teacher_id"`
-			Anon      bool   `json:"anon"`
+			Content      string `json:"content"`
+			TeacherID    uint   `json:"teacher_id"`
+			CreationDate int64  `json:"creation_date"`
+			Anon         bool   `json:"anon"`
 		}{}
 		if err := c.ShouldBindJSON(&requestData); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
@@ -24,6 +26,11 @@ func CreateQuote() gin.HandlerFunc {
 		}
 		if len(requestData.Content) > 2048 {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "content is too long. Max is 2048 characters"})
+			return
+		}
+		date := time.Unix(requestData.CreationDate, 0)
+		if date.After(time.Now()) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "date is in the future"})
 			return
 		}
 
@@ -38,7 +45,7 @@ func CreateQuote() gin.HandlerFunc {
 			userID = user.ID
 		}
 
-		if !repo.CreateQuote(requestData.Content, requestData.TeacherID, userID) {
+		if !repo.CreateQuote(requestData.Content, requestData.TeacherID, userID, requestData.CreationDate) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create the quote. Try again later"})
 			return
 		}
