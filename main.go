@@ -10,11 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"os"
 )
 
 func main() {
 	godotenv.Load(".env")
-	logrus.SetLevel(logrus.DebugLevel)
+	if os.Getenv("debug") != "" && os.Getenv("debug") == "true" {
+		logrus.SetLevel(logrus.DebugLevel)
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	firstStart := !util.FileExists("database.db")
 	db.InitDatabase()
 	if firstStart {

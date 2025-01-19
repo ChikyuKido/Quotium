@@ -1,11 +1,11 @@
 {{define "quote"}}
 <div class="column is-half">
     <div class="box">
-        <p class="is-size-7">John Doe</p>
-        <p class="is-size-4 has-text-centered">“The only way to do great work is to love what you do.”</p>
+        <p class="is-size-7">{{.Creator}}</p>
+        <p class="is-size-4 has-text-centered">“{{.Content}}”</p>
         <div class="is-flex is-justify-content-space-between is-align-items-center">
-            <p class="is-size-6">~ Steve Jobs</p>
-            <p class="is-size-7 has-text-italic">2005</p>
+            <p class="is-size-6">~ {{.Teacher}}</p>
+            <p class="is-size-7 has-text-italic">{{.Date}}</p>
         </div>
     </div>
 </div>

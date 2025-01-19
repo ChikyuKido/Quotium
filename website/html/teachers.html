@@ -30,7 +30,9 @@
             <div class="control">
                 <div class="select">
                     <select id="sortDropdown">
-                        <option value="cd">Creation Date</option>
+                        <option value="name">Name</option>
+                        <option value="shortname">Shortname</option>
+                        <option value="quotes">Quote Count</option>
                     </select>
                 </div>
             </div>
@@ -46,25 +48,15 @@
                 </div>
             </div>
             <div class="control">
-                <div class="select">
-                    <select id="teacherDropdown">
-                        <option value="0">None</option>
-                        {{range .Teachers}}
-                        <option value="{{.ID}}">{{.Name}}</option>
-                        {{end}}
-                    </select>
-                </div>
-            </div>
-            <div class="control">
                 <button class="button is-link" onclick="applyFilters()">Apply</button>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="columns is-variable is-4" id="quote_container">
-            {{range .Quotes}}
-            {{block "quote" .}}{{end}}
-            {{end}}
+        <div class="columns is-multiline">
+        {{range .Teachers}}
+            {{block "teacher" .}}{{end}}
+        {{end}}
         </div>
     </div>
 </div>
@@ -79,10 +71,9 @@
         const search = document.getElementById('searchInput').value;
         const sort = document.getElementById('sortDropdown').value;
         const limit = document.getElementById('limitDropdown').value;
-        const teacher = document.getElementById('teacherDropdown').value;
         const order = sortOrder.toLowerCase() === 'ascending' ? 'asc' : 'desc';
 
-        window.location.href = `?sort=${sort}&limit=${limit}&order=${order}&teacher=${teacher}&search=${encodeURIComponent(search)}`;
+        window.location.href = `?sort=${sort}&limit=${limit}&order=${order}&search=${encodeURIComponent(search)}`;
     }
 </script>
 </body>

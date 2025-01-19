@@ -58,15 +58,29 @@ func UpdateTeachersInDB() bool {
 	if err != nil {
 		logrus.Errorf("could not create directory for downloading teachers. %v", err)
 	} else {
-		for _, teacher := range teachersToAdd {
+		for i, teacher := range teachersToAdd {
 			downloadPath := fmt.Sprintf("data/teacher/%d.png", teacher.ID)
 			if util.FileExists(downloadPath) {
+				if stat, arr := os.Stat(downloadPath); arr == nil {
+					if stat.Size() == 3153 {
+						teachersToAdd[i].HasImage = false
+					} else {
+						teachersToAdd[i].HasImage = true
+					}
+				}
 				continue
 			}
 			if err = client.DownloadTeacherImage(downloadPath, teacher.ID); err != nil {
 				logrus.Errorf("could not download teacher image. %v", err)
 			} else {
 				logrus.Debugf("Downloaded image for teacher %d", teacher.ID)
+			}
+			if stat, err := os.Stat(downloadPath); err != nil {
+				if stat.Size() == 3153 {
+					teacher.HasImage = false
+				} else {
+					teacher.HasImage = true
+				}
 			}
 			time.Sleep(1 * time.Second)
 		}

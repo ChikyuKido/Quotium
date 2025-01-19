@@ -6,6 +6,7 @@ type Teacher struct {
 	Title      string `gorm:"size:255;not null"`
 	ShortName  string `gorm:"size:5;not null"`
 	QuoteCount int64  `gorm:"column:quote_count"`
+	HasImage   bool
 }
 
 type ByQuoteCount []Teacher

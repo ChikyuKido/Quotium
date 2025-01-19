@@ -14,12 +14,13 @@ func GetAllTeachers() []entity.Teacher {
 	}
 	return teachers
 }
-func GetTeachers() []entity.Teacher {
+func GetTeachers(searchQuery string) []entity.Teacher {
 	var teachers []entity.Teacher
 
 	err := db.DB().
 		Model(&entity.Teacher{}).
 		Select("teachers.*, (SELECT COUNT(*) FROM quotes WHERE teacher_id = teachers.id) AS quote_count").
+		Where("name LIKE ?", "%"+searchQuery+"%").
 		Scan(&teachers).Error
 	if err != nil {
 		logrus.Errorf("Failed to retrieve teachers from db: %v", err)

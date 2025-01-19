@@ -1,0 +1,17 @@
+{{define "teacher"}}
+<a class="column is-one-quarter" href="/quotes?teacher={{.ID}}">
+    <div class="card">
+        <div class="card-content has-text-centered">
+            <div class="card-image is-centered">
+                {{if .HasImage}}
+                <img src="/api/v1/teacher/image/{{.ID}}.png" alt="Teacher's Picture">
+                {{else}}
+                <img src="/imgs/default_teacher.png" alt="Teacher's Picture">
+                {{end}}
+            </div>
+            <p class="title is-5 mt-3">{{.Title}} {{.Name}}</p>
+            <p class="subtitle is-6">{{.ShortName}}</p>
+        </div>
+    </div>
+</a>
+{{end}}
