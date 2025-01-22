@@ -19,17 +19,18 @@ func StartServer(r *gin.Engine, port int) {
 
 func initRoutes(r *gin.Engine) {
 	quoteRoute := r.Group("/api/v1/quote")
-	quoteRoute.POST("/create", wat.RequiredPermission("createQuote"), quote.CreateQuote())
-	quoteRoute.GET("/list", wat.RequiredPermission("listQuotes"), wat.AuthMiddleware(), quote.ListQuotes())
+	quoteRoute.POST("/create", wat.RequiredPermission("createQuote", false), quote.CreateQuote())
+	quoteRoute.GET("/list", wat.RequiredPermission("listQuotes", false), wat.AuthMiddleware(), quote.ListQuotes())
 	teacherRoute := r.Group("/api/v1/teacher")
-	teacherRoute.GET("/list", wat.RequiredPermission("listTeachers"), teacher.ListTeacher())
+	teacherRoute.GET("/list", wat.RequiredPermission("listTeachers", false), teacher.ListTeacher())
 	teacherRoute.Static("/image", "data/teacher/")
 	sitesGroup := r.Group("/")
-	static.ServeFolder("/imgs/", "./website/imgs", nil, "imgs", sitesGroup)
-	static.ServeFolder("/js/", "./website/js", nil, "js", sitesGroup)
+	sitesGroup.Use(wat.AuthMiddleware())
+	static.ServeFolder("/imgs/", "./website/imgs", nil, "imgs", sitesGroup, "notGuest")
+	static.ServeFolder("/js/", "./website/js", nil, "js", sitesGroup, "")
 	sites.Quotes(sitesGroup)
 	sites.Teachers(sitesGroup)
 	sites.CreateQuote(sitesGroup)
-	r.GET("/", static.ServeFile("./website/html/index.html", nil, "quotes"))
+	sitesGroup.GET("/", wat.RequiredPermission("notGuest", true), static.ServeFile("./website/html/index.html", nil, "quotes"))
 
 }

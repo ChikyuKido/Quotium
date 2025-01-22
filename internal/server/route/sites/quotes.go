@@ -3,6 +3,7 @@ package sites
 import (
 	"Quotium/internal/helper"
 	"Quotium/internal/server/db/repo"
+	wat "github.com/ChikyuKido/wat/wat/server/middleware"
 	"github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -21,7 +22,7 @@ type teacherDropdownData struct {
 }
 
 func Quotes(r *gin.RouterGroup) {
-	r.GET("/quotes", static.ServeFile("./website/html/quotes.html", func(c *gin.Context) any {
+	r.GET("/quotes", wat.RequiredPermission("listQuotes", true), static.ServeFile("./website/html/quotes.html", func(c *gin.Context) any {
 		var data = struct {
 			Quotes   []quoteData
 			Teachers []teacherDropdownData

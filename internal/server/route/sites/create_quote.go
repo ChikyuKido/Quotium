@@ -2,13 +2,14 @@ package sites
 
 import (
 	"Quotium/internal/server/db/repo"
+	wat "github.com/ChikyuKido/wat/wat/server/middleware"
 	"github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
 
 func CreateQuote(r *gin.RouterGroup) {
-	r.GET("/createQuote", static.ServeFile("./website/html/create_quote.html", func(c *gin.Context) any {
+	r.GET("/createQuote", wat.RequiredPermission("createQuote", true), static.ServeFile("./website/html/create_quote.html", func(c *gin.Context) any {
 		var data = struct {
 			Teachers []teacherDropdownData
 		}{}

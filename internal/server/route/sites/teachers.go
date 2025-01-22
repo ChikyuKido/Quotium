@@ -2,6 +2,7 @@ package sites
 
 import (
 	"Quotium/internal/helper"
+	wat "github.com/ChikyuKido/wat/wat/server/middleware"
 	"github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ type teacherData struct {
 }
 
 func Teachers(r *gin.RouterGroup) {
-	r.GET("/teachers", static.ServeFile("./website/html/teachers.html", func(c *gin.Context) any {
+	r.GET("/teachers", wat.RequiredPermission("listTeachers", true), static.ServeFile("./website/html/teachers.html", func(c *gin.Context) any {
 		var data = struct {
 			Teachers []teacherData
 		}{}
