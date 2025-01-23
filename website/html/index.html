@@ -54,21 +54,21 @@
             <div class="column is-one-third">
                 <div class="box has-background-info">
                     <h3 class="title is-4">New Quotes (Last 7 Days)</h3>
-                    <p class="subtitle is-5">20</p>
+                    <p class="subtitle is-5">{{.Stats.Last7Days}}</p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box has-background-success">
                     <h3 class="title is-4">Total Quotes</h3>
-                    <p class="subtitle is-5">2000</p>
+                    <p class="subtitle is-5">{{.Stats.TotalQuotes}}</p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box has-background-warning">
                     <h3 class="title is-4">Total Teachers</h3>
-                    <p class="subtitle is-5">150</p>
+                    <p class="subtitle is-5">{{.Stats.TotalTeachers}}</p>
                 </div>
             </div>
         </div>

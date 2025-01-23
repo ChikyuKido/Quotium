@@ -2,7 +2,8 @@ package quote
 
 import (
 	"Quotium/internal/server/db/repo"
-	"github.com/ChikyuKido/wat/wat/util"
+	wat "github.com/ChikyuKido/wat/wat/server/static"
+	util "github.com/ChikyuKido/wat/wat/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -41,7 +42,7 @@ func CreateQuote() gin.HandlerFunc {
 
 		var userID uint = 0
 		if !requestData.Anon {
-			user := wat.GetUserFromContext(c)
+			user := util.GetUserFromContext(c)
 			userID = user.ID
 		}
 
@@ -49,6 +50,7 @@ func CreateQuote() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create the quote. Try again later"})
 			return
 		}
+		wat.InvalidateArena("quotes")
 		c.JSON(http.StatusOK, gin.H{"message": "successfully created the quote"})
 	}
 }

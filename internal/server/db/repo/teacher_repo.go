@@ -14,6 +14,14 @@ func GetAllTeachers() []entity.Teacher {
 	}
 	return teachers
 }
+func GetTeacherCount() int64 {
+	var count int64
+	if err := db.DB().Model(&entity.Teacher{}).Count(&count).Error; err != nil {
+		logrus.Errorf("Failed to get teacher count %v", err)
+		return 0
+	}
+	return count
+}
 func GetTeachers(searchQuery string) []entity.Teacher {
 	var teachers []entity.Teacher
 

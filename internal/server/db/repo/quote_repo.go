@@ -4,6 +4,7 @@ import (
 	"Quotium/internal/server/db"
 	"Quotium/internal/server/db/entity"
 	"github.com/sirupsen/logrus"
+	"time"
 )
 
 func CreateQuote(content string, teacherID uint, userID uint, creationDate int64) bool {
@@ -20,6 +21,26 @@ func CreateQuote(content string, teacherID uint, userID uint, creationDate int64
 		return false
 	}
 	return true
+}
+func GetQuoteCount() int64 {
+	var count int64
+	if err := db.DB().Model(&entity.Quote{}).Count(&count).Error; err != nil {
+		logrus.Errorf("Failed to get quote count %v", err)
+		return 0
+	}
+	return count
+}
+func GetQuoteCountLast7Days() int64 {
+	var count int64
+	sevenDaysAgo := time.Now().AddDate(0, 0, -7).Unix()
+	if err := db.DB().
+		Model(&entity.Quote{}).
+		Where("creation_date >= ?", sevenDaysAgo).
+		Count(&count).Error; err != nil {
+		logrus.Errorf("Failed to get quote count: %v", err)
+		return 0
+	}
+	return count
 }
 func ListQuotes(limit int, teacherID uint, searchQuery string) []entity.Quote {
 	var quotes []entity.Quote

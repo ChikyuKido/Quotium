@@ -3,8 +3,8 @@ package sites
 import (
 	"Quotium/internal/helper"
 	"Quotium/internal/server/db/repo"
-	wat "github.com/ChikyuKido/wat/wat/server/middleware"
-	"github.com/ChikyuKido/wat/wat/server/static"
+	"github.com/ChikyuKido/wat/wat/server/middleware"
+	static "github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"

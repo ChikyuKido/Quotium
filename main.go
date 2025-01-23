@@ -6,7 +6,7 @@ import (
 	"Quotium/internal/server/db"
 	"Quotium/util"
 	"github.com/ChikyuKido/wat/wat"
-	"github.com/ChikyuKido/wat/wat/server/static"
+	static "github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -28,9 +28,10 @@ func main() {
 	}
 	r := gin.Default()
 	static.LoadTemplates("./website/templates")
-	wat.Roles["user"] = append(wat.Roles["user"], "createQuote")
-	wat.Roles["user"] = append(wat.Roles["user"], "listQuotes")
-	wat.Roles["user"] = append(wat.Roles["user"], "listTeachers")
+	wat.Roles["unverifiedUser"] = append(wat.Roles["unverifiedUser"], "index")
+	wat.Roles["admin"] = append(wat.Roles["admin"], "index", "createQuote", "listQuotes", "listTeachers")
+	wat.Roles["user"] = append(wat.Roles["user"], "index", "createQuote", "listQuotes", "listTeachers")
+
 	wat.InitWat(r, db.DB(), firstStart)
 	wat.InitWatWebsite(r, "./external/wat/website")
 	server.StartServer(r, 8080)
