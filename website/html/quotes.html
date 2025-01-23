@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotes</title>
-    <link href="/css/bulma.css" rel="stylesheet">
+    <link href="/css/bulma.css?v={rep}" rel="stylesheet">
     <style>
         .control .select select {
             width: 200px;
@@ -105,6 +105,12 @@
 
         window.location.href = `?sort=${sort}&limit=${limit}&order=${order}&teacher=${teacher}&search=${encodeURIComponent(search)}`;
     }
+    document.getElementById('searchInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            applyFilters()
+        }
+    });
 </script>
 </body>
 </html>

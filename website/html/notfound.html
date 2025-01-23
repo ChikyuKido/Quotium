@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotium - Page Not Found</title>
+  <link href="/css/bulma.css?v={rep}" rel="stylesheet">
+  <style>
+    .box.has-background-info {
+      background-color: #1d3557;
+      color: white;
+    }
+
+    .box.has-background-success {
+      background-color: #457b9d;
+      color: white;
+    }
+
+    .box.has-background-warning {
+      background-color: #f1faee;
+      color: #333;
+    }
+
+    .hero.is-primary {
+      background-color: #1d3557;
+    }
+
+    .hero-body h1, .hero-body h2 {
+      color: white;
+    }
+    .box h3 {
+      color: #14161a;
+    }
+    .box p {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+{{block "navbar" .}}{{end}}
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <img src="/imgs/logo.webp" alt="Quotium Logo" style="max-width: 200px;">
+      <h1 class="title is-2 mt-5">Oops!</h1>
+      <h2 class="subtitle is-4">We can't seem to find the page you're looking for.</h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container has-text-centered">
+    <h2 class="title is-3">404 - Page Not Found</h2>
+    <p class="subtitle is-5">It seems the page you're trying to access doesn't exist or has been moved.</p>
+    <a href="/" class="button is-primary is-large">Return to Homepage</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container has-text-centered">
+    <strong>Quotium</strong> made with lots of love
+  </div>
+</section>
+
+</body>
+</html>

@@ -21,7 +21,8 @@ func main() {
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	firstStart := !util.FileExists("database.db")
+	_ = os.MkdirAll("data", 0750)
+	firstStart := !util.FileExists("data/database.db")
 	db.InitDatabase()
 	if firstStart {
 		manager.UpdateTeachersInDB()

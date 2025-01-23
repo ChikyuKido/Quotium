@@ -1,6 +1,5 @@
 package helper
 
-import "C"
 import (
 	"Quotium/internal/server/db/entity"
 	"Quotium/internal/server/db/repo"

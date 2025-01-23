@@ -35,4 +35,6 @@ func initRoutes(r *gin.Engine) {
 	sites.Teachers(sitesGroup)
 	sites.CreateQuote(sitesGroup)
 	sites.Index(sitesGroup)
+	sitesWithoutAuth.GET("/forbidden", static.ServeFile("./website/html/forbidden.html", nil, "quotium"))
+	r.NoRoute(static.ServeFile("./website/html/notfound.html", nil, "quotium"))
 }
