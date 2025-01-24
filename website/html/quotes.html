@@ -12,6 +12,10 @@
             white-space: nowrap;
             overflow: hidden;
         }
+        .grid-item {
+            width: 50%;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -64,13 +68,14 @@
         </div>
     </div>
     <div class="container">
-        <div class="columns is-multiline" id="quote_container">
+        <div class="grid" data-masonry='{ "itemSelector": ".grid-item","percentPosition": true}'>
             {{range .Quotes}}
             {{block "quote" .}}{{end}}
             {{end}}
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
     function getUrlParams() {
         const params = new URLSearchParams(window.location.search);

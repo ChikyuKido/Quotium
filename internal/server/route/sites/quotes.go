@@ -6,13 +6,15 @@ import (
 	"github.com/ChikyuKido/wat/wat/server/middleware"
 	static "github.com/ChikyuKido/wat/wat/server/static"
 	"github.com/gin-gonic/gin"
+	"html/template"
 	"strconv"
+	"strings"
 	"time"
 )
 
 type quoteData struct {
 	Creator string
-	Content string
+	Content template.HTML
 	Teacher string
 	Date    string
 }
@@ -35,7 +37,7 @@ func Quotes(r *gin.RouterGroup) {
 			}
 			quote := quoteData{
 				Creator: creatorName,
-				Content: dbQuote.Content,
+				Content: template.HTML(strings.ReplaceAll(dbQuote.Content, "\n", "<br>")),
 				Teacher: dbQuote.Teacher.Name,
 				Date:    time.Unix(dbQuote.CreationDate, 0).Format("02.01.2006"),
 			}
