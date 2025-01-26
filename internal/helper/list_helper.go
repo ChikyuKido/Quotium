@@ -11,7 +11,7 @@ import (
 
 func QuoteList(c *gin.Context) []entity.Quote {
 	sortType := "cd"
-	order := "asc"
+	order := "desc"
 	limit := 25
 	var teacher uint = 0
 	if sortParam := c.Query("sort"); sortParam != "" {
@@ -38,12 +38,15 @@ func QuoteList(c *gin.Context) []entity.Quote {
 			return nil
 		}
 	}
-	quotes := repo.ListQuotes(limit, teacher, c.Query("search"))
+	quotes := repo.ListQuotes(teacher, c.Query("search"))
 	if sortType == "cd" {
 		sort2.Sort(entity.ByCreationDate(quotes))
 	}
 	if order == "desc" {
 		reverseSlice(quotes)
+	}
+	if limit < len(quotes) {
+		quotes = quotes[:limit]
 	}
 	return quotes
 }

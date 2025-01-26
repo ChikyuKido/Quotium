@@ -22,51 +22,56 @@
 {{block "navbar" .}}{{end}}
 <div class="section">
     <div class="container mb-6">
-        <div class="field is-grouped">
-            <div class="control is-expanded">
-                <input class="input" type="text" id="searchInput" placeholder="Search...">
+        <div class="columns is-multiline is-mobile">
+            <div class="column is-full-mobile">
+                <div class="control is-expanded">
+                    <input class="input" type="text" id="searchInput" placeholder="Search..." style="min-width: 300px;">
+                </div>
             </div>
-            <div class="control">
-                <button class="button is-primary" onclick="toggleSortOrder()">
+            <div class="column is-full-mobile">
+                <button class="button is-primary is-fullwidth" onclick="toggleSortOrder()">
                     <span id="sortOrder">Ascending</span>
                 </button>
             </div>
-            <div class="control">
-                <div class="select">
-                    <select id="sortDropdown">
-                        <option value="cd">Creation Date</option>
-                    </select>
+            <div class="column is-half-mobile">
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="sortDropdown">
+                            <option value="cd">Creation Date</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-
-            <div class="control">
-                <div class="select">
-                    <select id="limitDropdown">
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="all">All</option>
-                    </select>
+            <div class="column is-half-mobile">
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="limitDropdown">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="control">
-                <div class="select">
-                    <select id="teacherDropdown">
-                        <option value="0">None</option>
-                        {{range .Teachers}}
-                        <option value="{{.ID}}">{{.Name}}</option>
-                        {{end}}
-                    </select>
+            <div class="column is-full-mobile">
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="teacherDropdown">
+                            <option value="0">None</option>
+                            {{range .Teachers}}
+                            <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="control">
-                <button class="button is-link" onclick="applyFilters()">Apply</button>
-            </div>
-            <div class="control">
-                <a class="button is-primary" href="/createQuote">Create Quote</a>
+            <div class="column is-half-mobile">
+                <button class="button is-link is-fullwidth" onclick="applyFilters()">Apply</button>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="grid" data-masonry='{ "itemSelector": ".grid-item","percentPosition": true}'>
             {{range .Quotes}}
@@ -84,7 +89,7 @@
             sort: params.get('sort') || 'cd',
             limit: params.get('limit') || '25',
             teacher: params.get('teacher') || '0',
-            order: params.get('order') || 'asc'
+            order: params.get('order') || 'desc'
         };
     }
     function populateFilters() {

@@ -42,9 +42,9 @@ func GetQuoteCountLast7Days() int64 {
 	}
 	return count
 }
-func ListQuotes(limit int, teacherID uint, searchQuery string) []entity.Quote {
+func ListQuotes(teacherID uint, searchQuery string) []entity.Quote {
 	var quotes []entity.Quote
-	query := db.DB().Preload("Creator").Preload("Teacher").Limit(limit)
+	query := db.DB().Preload("Creator").Preload("Teacher")
 	if teacherID != 0 {
 		query = query.Where(entity.Quote{TeacherID: teacherID})
 	}
